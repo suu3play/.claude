@@ -1,0 +1,22 @@
+# OS固有ファイル
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# エディタ・IDE設定
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ログファイル
+*.log
+
+# 一時ファイル
+*.tmp
+*.temp
+
+# バックアップファイル
+*.bak
+*.backup
