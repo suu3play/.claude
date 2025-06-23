@@ -9,6 +9,9 @@
 - 作業ディレクトリ: `/home/suu3/自己開発`（D:\自己開発とシンボリックリンクで同期）
 - シンボリックリンク設定:  
   `ln -s "/mnt/d/自己開発" "/home/suu3/自己開発"`
+- CLAUDE.mdファイル: `/home/suu3/CLAUDE.md`（D:\自己開発\claude-config\CLAUDE.mdとシンボリックリンクで同期）
+- CLAUDE.mdシンボリックリンク設定:  
+  `ln -s "/mnt/d/自己開発/claude-config/CLAUDE.md" "/home/suu3/CLAUDE.md"`
 
 ### 初期化コマンド
 
@@ -20,6 +23,13 @@ if [ ! -L "/home/suu3/自己開発" ]; then
     rm -rf "/home/suu3/自己開発"
     ln -s "/mnt/d/自己開発" "/home/suu3/自己開発"
 fi
+
+# CLAUDE.mdシンボリックリンクが存在しない場合のみ作成
+if [ ! -L "/home/suu3/CLAUDE.md" ]; then
+    rm -f "/home/suu3/CLAUDE.md"
+    ln -s "/mnt/d/自己開発/claude-config/CLAUDE.md" "/home/suu3/CLAUDE.md"
+fi
+
 cd "/home/suu3/自己開発"
 ```
 
