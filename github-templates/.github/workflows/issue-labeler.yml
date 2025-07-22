@@ -1,0 +1,131 @@
+name: Issue Labeler
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  label-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    
+    steps:
+      - name: Label Bug Reports
+        if: contains(github.event.issue.title, '[BUG]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['bug', 'needs-triage']
+            })
+
+      - name: Label Feature Requests
+        if: contains(github.event.issue.title, '[FEATURE]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['enhancement', 'needs-review']
+            })
+
+      - name: Label Tasks
+        if: contains(github.event.issue.title, '[TASK]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['task', 'in-planning']
+            })
+
+      - name: Label Improvements
+        if: contains(github.event.issue.title, '[IMPROVEMENT]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['improvement', 'needs-discussion']
+            })
+
+      - name: Label Questions
+        if: contains(github.event.issue.title, '[QUESTION]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['question', 'help wanted']
+            })
+
+      - name: Auto-assign based on content
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body;
+            const title = context.payload.issue.title;
+            
+            // 優先度の自動判定
+            if (body.includes('高: ') || title.includes('URGENT') || title.includes('CRITICAL')) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['priority-high']
+              });
+            } else if (body.includes('低: ')) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['priority-low']
+              });
+            } else {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['priority-medium']
+              });
+            }
+            
+            // コンポーネント別ラベルの自動判定
+            if (body.includes('フロントエンド') || body.includes('UI') || body.includes('React') || body.includes('Vue')) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['frontend']
+              });
+            }
+            
+            if (body.includes('バックエンド') || body.includes('API') || body.includes('サーバー') || body.includes('データベース')) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['backend']
+              });
+            }
+            
+            if (body.includes('ドキュメント') || body.includes('README') || body.includes('マニュアル')) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['documentation']
+              });
+            }

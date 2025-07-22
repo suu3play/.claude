@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🌐 公式ドキュメント
+    url: https://docs.github.com
+    about: 機能の使い方や詳細な情報については公式ドキュメントをご確認ください
+  
+  - name: 💬 ディスカッション
+    url: https://github.com/ORG/REPO/discussions
+    about: 一般的な質問や機能についての議論はディスカッションをご利用ください
+  
+  - name: 🔒 セキュリティ
+    url: https://github.com/ORG/REPO/security/advisories/new
+    about: セキュリティに関する問題は機密報告をご利用ください
+  
+  - name: 📧 お問い合わせ
+    url: mailto:support@example.com
+    about: 個別のサポートが必要な場合はメールでお問い合わせください

@@ -1,0 +1,243 @@
+# GitHub Labels Configuration
+# このファイルを使用して統一されたラベルセットを管理できます
+# https://github.com/EndBug/label-sync などのツールで適用可能
+
+# 基本的なタイプ
+- name: "bug"
+  color: "d73a4a"
+  description: "Something isn't working"
+
+- name: "enhancement"
+  color: "a2eeef"
+  description: "New feature or request"
+
+- name: "task"
+  color: "7057ff"
+  description: "Work that needs to be done"
+
+- name: "improvement"
+  color: "e99695"
+  description: "Enhancement to existing feature"
+
+- name: "question"
+  color: "d876e3"
+  description: "Further information is requested"
+
+# 優先度
+- name: "priority-high"
+  color: "b60205"
+  description: "High priority"
+
+- name: "priority-medium"
+  color: "fbca04"
+  description: "Medium priority"
+
+- name: "priority-low"
+  color: "0e8a16"
+  description: "Low priority"
+
+# 状態
+- name: "needs-triage"
+  color: "ffffff"
+  description: "Needs to be triaged"
+
+- name: "needs-review"
+  color: "fbca04"
+  description: "Needs review"
+
+- name: "needs-discussion"
+  color: "d4c5f9"
+  description: "Needs discussion"
+
+- name: "in-planning"
+  color: "c5def5"
+  description: "In planning phase"
+
+- name: "in-progress"
+  color: "1d76db"
+  description: "Currently being worked on"
+
+- name: "blocked"
+  color: "b60205"
+  description: "Blocked by other work"
+
+- name: "on-hold"
+  color: "ffffff"
+  description: "On hold"
+
+- name: "ready-for-review"
+  color: "0e8a16"
+  description: "Ready for review"
+
+- name: "changes-requested"
+  color: "d93f0b"
+  description: "Changes requested"
+
+- name: "approved"
+  color: "0e8a16"
+  description: "Approved"
+
+# コンポーネント・領域
+- name: "frontend"
+  color: "5319e7"
+  description: "Frontend related"
+
+- name: "backend"
+  color: "0052cc"
+  description: "Backend related"
+
+- name: "api"
+  color: "1f77b4"
+  description: "API related"
+
+- name: "database"
+  color: "2f4f4f"
+  description: "Database related"
+
+- name: "ui"
+  color: "ff69b4"
+  description: "User interface"
+
+- name: "ux"
+  color: "ff1493"
+  description: "User experience"
+
+- name: "performance"
+  color: "ff7f00"
+  description: "Performance related"
+
+- name: "security"
+  color: "8b0000"
+  description: "Security related"
+
+- name: "testing"
+  color: "32cd32"
+  description: "Testing related"
+
+- name: "documentation"
+  color: "1e90ff"
+  description: "Documentation"
+
+- name: "ci-cd"
+  color: "696969"
+  description: "CI/CD related"
+
+- name: "infrastructure"
+  color: "2f4f4f"
+  description: "Infrastructure"
+
+- name: "deployment"
+  color: "808080"
+  description: "Deployment related"
+
+# PRのタイプ
+- name: "breaking-change"
+  color: "b60205"
+  description: "Breaking change"
+
+- name: "feature"
+  color: "a2eeef"
+  description: "New feature"
+
+- name: "fix"
+  color: "d73a4a"
+  description: "Bug fix"
+
+- name: "refactor"
+  color: "e99695"
+  description: "Code refactoring"
+
+- name: "style"
+  color: "f9d0c4"
+  description: "Code style changes"
+
+- name: "test"
+  color: "c5def5"
+  description: "Test related"
+
+- name: "chore"
+  color: "fef2c0"
+  description: "Maintenance and chores"
+
+# PRのサイズ
+- name: "size/small"
+  color: "00ff00"
+  description: "Small PR (<50 lines)"
+
+- name: "size/medium"
+  color: "ffff00"
+  description: "Medium PR (50-200 lines)"
+
+- name: "size/large"
+  color: "ff8000"
+  description: "Large PR (200-500 lines)"
+
+- name: "size/extra-large"
+  color: "ff0000"
+  description: "Extra large PR (>500 lines)"
+
+# 特別なラベル
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention is needed"
+
+- name: "good first issue"
+  color: "7057ff"
+  description: "Good for newcomers"
+
+- name: "work-in-progress"
+  color: "yellow"
+  description: "Work in progress"
+
+- name: "do-not-merge"
+  color: "b60205"
+  description: "Do not merge"
+
+- name: "dependencies"
+  color: "0366d6"
+  description: "Pull requests that update a dependency file"
+
+- name: "duplicate"
+  color: "cfd3d7"
+  description: "This issue or pull request already exists"
+
+- name: "invalid"
+  color: "e4e669"
+  description: "This doesn't seem right"
+
+- name: "wontfix"
+  color: "ffffff"
+  description: "This will not be worked on"
+
+# 技術スタック固有
+- name: "javascript"
+  color: "f7df1e"
+  description: "JavaScript related"
+
+- name: "typescript"
+  color: "3178c6"
+  description: "TypeScript related"
+
+- name: "react"
+  color: "61dafb"
+  description: "React related"
+
+- name: "vue"
+  color: "4fc08d"
+  description: "Vue.js related"
+
+- name: "nodejs"
+  color: "339933"
+  description: "Node.js related"
+
+- name: "python"
+  color: "3776ab"
+  description: "Python related"
+
+- name: "docker"
+  color: "2496ed"
+  description: "Docker related"
+
+- name: "kubernetes"
+  color: "326ce5"
+  description: "Kubernetes related"
