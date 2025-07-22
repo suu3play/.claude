@@ -23,7 +23,7 @@ jobs:
               labels: ['bug', 'needs-triage']
             })
 
-      - name: Label Feature Requests
+      - name: Label Feature/Enhancement Requests
         if: contains(github.event.issue.title, '[FEATURE]')
         uses: actions/github-script@v7
         with:
@@ -45,18 +45,6 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
               labels: ['task', 'in-planning']
-            })
-
-      - name: Label Improvements
-        if: contains(github.event.issue.title, '[IMPROVEMENT]')
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['improvement', 'needs-discussion']
             })
 
       - name: Label Questions
@@ -99,6 +87,23 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
                 labels: ['priority-medium']
+              });
+            }
+            
+            // 変更種別の自動判定
+            if (body.includes('新機能の追加')) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['feature']
+              });
+            } else if (body.includes('既存機能の改善') || body.includes('UI/UXの改善') || body.includes('パフォーマンスの改善')) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['improvement']
               });
             }
             
