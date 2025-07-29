@@ -6,32 +6,9 @@
 
 ## 開発環境設定
 
--   作業ディレクトリ: `/home/suu3/自己開発`（D:\自己開発とシンボリックリンクで同期）
--   シンボリックリンク設定:
-    `ln -s "/mnt/d/自己開発" "/home/suu3/自己開発"`
--   CLAUDE.md ファイル: `/home/suu3/CLAUDE.md`（D:\自己開発\claude-config\CLAUDE.md とシンボリックリンクで同期）
--   CLAUDE.md シンボリックリンク設定:
-    `ln -s "/mnt/d/自己開発/claude-config/CLAUDE.md" "/home/suu3/CLAUDE.md"`
-
-### 初期化コマンド
-
-新しいセッションでは以下のコマンドで環境を設定:
-
-```bash
-# シンボリックリンクが存在しない場合のみ作成
-if [ ! -L "/home/suu3/自己開発" ]; then
-    rm -rf "/home/suu3/自己開発"
-    ln -s "/mnt/d/自己開発" "/home/suu3/自己開発"
-fi
-
-# CLAUDE.mdシンボリックリンクが存在しない場合のみ作成
-if [ ! -L "/home/suu3/CLAUDE.md" ]; then
-    rm -f "/home/suu3/CLAUDE.md"
-    ln -s "/mnt/d/自己開発/claude-config/CLAUDE.md" "/home/suu3/CLAUDE.md"
-fi
-
-cd "/home/suu3/自己開発"
-```
+-   作業ディレクトリ: `D:\自己開発`
+-   CLAUDE.md ファイル: `D:\自己開発\CLAUDE.md`（D:\自己開発\claude-config\CLAUDE.md と同期）
+-   **重要**: CLAUDE.mdファイルを編集した場合は、必ずD:\自己開発\claude-config\CLAUDE.mdにも同じ内容を反映すること
 
 ## 行動指針
 
@@ -54,6 +31,8 @@ cd "/home/suu3/自己開発"
 ## 詳細ルール参照
 
 複雑なタスクや詳細ルールが必要な場合は、以下ファイルをReadツールで読み込んでから作業を開始：
+
+**重要**: 開発作業を開始する前に、必ず`rules/development-workflow.md`を読み込んでブランチ作成・コード品質チェック・プルリクエスト作成の手順を確認すること
 
 ### 開発関連
 -   **開発ワークフロー**: `rules/development-workflow.md`を読み込み
