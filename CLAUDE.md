@@ -6,15 +6,17 @@
 
 ## 開発環境設定
 
--   作業ディレクトリ: `D:\自己開発`
--   CLAUDE.md ファイル: `D:\自己開発\CLAUDE.md`（D:\自己開発\claude-config\CLAUDE.md と同期）
--   **重要**: CLAUDE.mdファイルを編集した場合は、必ずD:\自己開発\claude-config\CLAUDE.mdにも同じ内容を反映すること
+**注意**: `.claude/`ディレクトリは隠しディレクトリです。確認時は`ls -la`コマンドまたは`find`コマンドを使用してください。
+
+-   **重要**: CLAUDE.md ファイルを編集した場合は、必ず `claude-config\CLAUDE.md` にも同じ内容を反映すること
+-   **重要**: `.claude/rules/` 配下のファイルを編集した場合は、必ず `claude-config/rules/` にも同じ内容を反映すること
+-   **重要**: `.claude/templates/` 配下のファイルを編集した場合は、必ず `claude-config/templates/` にも同じ内容を反映すること
 
 ## 行動指針
 
 -   回答は簡潔に。ただし、必要に応じて十分な技術的背景も含めて説明すること。
 -   よくあるミスや注意点がある場合は、事前にユーザーに警告すること。
--   複雑なタスクの場合、TodoWriteツールを使用して計画的に対応すること（単純なタスクでは不要）。
+-   複雑なタスクの場合、TodoWrite ツールを使用して計画的に対応すること（単純なタスクでは不要）。
 
 ## コミュニケーションスタイル
 
@@ -30,25 +32,28 @@
 
 ## 詳細ルール参照
 
-複雑なタスクや詳細ルールが必要な場合は、以下ファイルをReadツールで読み込んでから作業を開始：
+複雑なタスクや詳細ルールが必要な場合は、以下ファイルを Read ツールで読み込んでから作業を開始：
 
-**重要**: 開発作業を開始する前に、必ず`rules/development-workflow.md`を読み込んでブランチ作成・コード品質チェック・プルリクエスト作成の手順を確認すること
+**重要**: 開発作業を開始する前に、必ず`.claude/rules/development-workflow.md`（隠しディレクトリ）を読み込んでブランチ作成・コード品質チェック・プルリクエスト作成の手順を確認すること
 
 ### 開発関連
--   **開発ワークフロー**: `rules/development-workflow.md`を読み込み
--   **コード品質基準**: `rules/code-quality-standards.md`を読み込み  
--   **テスト要件**: `rules/testing-requirements.md`を読み込み
+
+-   **開発ワークフロー**: `.claude/rules/development-workflow.md`を読み込み
+-   **コード品質基準**: `.claude/rules/code-quality-standards.md`を読み込み
+-   **テスト要件**: `.claude/rules/testing-requirements.md`を読み込み
 
 ### プロジェクト管理
--   **Issue管理**: `rules/issue-management.md`を読み込み
+
+-   **Issue 管理**: `.claude/rules/issue-management.md`を読み込み
 
 ### テンプレート
--   **プルリクエスト**: `templates/pull-request-template.md`を参照
--   **Issue作成**: `templates/issue-template.md`を参照
--   **コード品質チェック**: `templates/code-quality-check-template.md`を参照
+
+-   **プルリクエスト**: `.claude/templates/pull-request-template.md`を参照
+-   **Issue 作成**: `.claude/templates/issue-template.md`を参照
+-   **コード品質チェック**: `.claude/templates/code-quality-check-template.md`を参照
 
 ## 運用方針
 
--   詳細ルール適用時は、該当ファイルをReadツールで読み込んでから作業を開始すること
+-   詳細ルール適用時は、該当ファイルを Read ツールで読み込んでから作業を開始すること
 -   テンプレート使用時は、該当テンプレートファイルの構成に従うこと
 -   ルールファイルの内容は、作業実行前に必ず最新版を読み込むこと
