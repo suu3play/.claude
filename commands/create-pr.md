@@ -1,6 +1,6 @@
 1. 開発ワークフローの読み込み
 
-    - D:\自己開発\claude-config\rules\development-workflow.md を読み込む
+    - D:\自己開発\.claude\rules\development-workflow.md を読み込む
     - 必要に応じて関連するルール・テンプレートファイルを読み込む
 
 2. 改修内容を git へ反映し、プルリクエスト作成
