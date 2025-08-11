@@ -9,7 +9,7 @@
 
 ### 基本的な作業の流れ
 
-1. **厳格なコード品質チェック**を実行し、すべて成功することを確認（結果は CODE_QUALITY_CHECK.md に出力）
+1. **厳格なコード品質チェック**を実行し、すべて成功することを確認（結果は ./logs/code_check_yyyyMMddHHmm.md に出力）
     - 型チェック（TypeScript/Python 型ヒント）
     - 構文エラーチェック
     - null / undefined チェック
@@ -20,6 +20,7 @@
     - 非同期処理の漏れ（Promise 未処理、async/await 不整合）
     - スペルチェック（変数名、コメント、文字列リテラル）
     - リント・フォーマットチェック
+    - ビルドが正常終了
 2. 作業内容をコミット。メッセージは Conventional Commits 形式に従うこと（feat:, fix:, docs:, refactor:, test: など）
 3. 修正内容を確認、問題なければ以降の作業を開始する旨をユーザに通知する
 4. リモートブランチに push (`git push -u origin <ブランチ名>`)
