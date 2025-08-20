@@ -37,9 +37,11 @@
       "Bash(cp:*)",
       "Bash(npx tailwindcss init:*)",
       "Bash(./node_modules/.bin/tailwindcss:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(npm init:*)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   },
   "hooks": {
     "Stop": [
