@@ -57,7 +57,8 @@
       "Bash(pip uninstall:*)",
       "Bash(node:*)",
       "Bash(curl:*)",
-      "Bash(git remote get-url:*)"
+      "Bash(git remote get-url:*)",
+      "Bash(git rebase:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
