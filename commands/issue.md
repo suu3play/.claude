@@ -1,6 +1,6 @@
 1. 開発ワークフローの読み込み
 
-    - D:\自己開発\.claude\rules\development-workflow.md を読み込む
+    - [プロジェクトルート]\.claude\rules\development-workflow.md を読み込む
     - 必要に応じて関連するルール・テンプレートファイルを読み込む
 
 2. Issue 分析と改修計画立案
