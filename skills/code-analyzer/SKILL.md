@@ -110,7 +110,7 @@ cargo clippy -- -W clippy::all
 - 配列範囲外アクセス
 - 無限ループの可能性
 
-**ラベル**: `bug`, `priority: high`
+**標準ラベル**: `Type：バグ`, `Priority：最優先` または `Priority：中`
 
 #### 🔧 リファクタリング (Refactoring)
 - コードの重複
@@ -119,35 +119,37 @@ cargo clippy -- -W clippy::all
 - 命名の問題
 - 複雑度の高いコード
 
-**ラベル**: `refactoring`, `tech-debt`
+**標準ラベル**: `Type：リファクタリング`, `Priority：中` または `Priority：低`
 
 #### 📝 ドキュメント (Documentation)
 - TODOコメント
 - 未ドキュメント化のAPI
 - README更新
 
-**ラベル**: `documentation`
+**標準ラベル**: `Type：ドキュメント更新`, `Priority：低`
 
 #### ⚡ パフォーマンス (Performance)
 - 非効率なアルゴリズム
 - 不要な再レンダリング
 - メモリリークの可能性
 
-**ラベル**: `performance`
+**標準ラベル**: `Type：リファクタリング`, `Priority：中`
 
 #### 🧪 テスト (Testing)
 - テストカバレッジ不足
 - テストの欠如
 - テストの改善提案
 
-**ラベル**: `testing`
+**標準ラベル**: `Type：作業`, `Priority：中`
 
 #### 🔒 セキュリティ (Security)
 - ハードコードされた認証情報
 - SQLインジェクションの可能性
 - XSSの脆弱性
 
-**ラベル**: `security`, `priority: high`
+**標準ラベル**: `Type：バグ`, `Priority：最優先`
+
+**注意**: 全ての標準ラベルは`.claude/labels.md`から読み込まれます。プロジェクトに標準ラベルが未設定の場合は、Issue作成前に`/copy-labels`の実行を提案します。
 
 #### ♿ アクセシビリティ (Accessibility)
 - aria属性の欠如
@@ -201,19 +203,37 @@ cargo clippy -- -W clippy::all
 
 ### ステップ7: GitHub Issue作成
 
+#### 標準ラベルの読み込み
+
+Issue作成前に`.claude/labels.md`から標準ラベル定義を読み込む:
+
+```bash
+# labels.mdの存在確認
+if [ -f ".claude/labels.md" ]; then
+  cat .claude/labels.md
+else
+  echo "警告: .claude/labels.mdが見つかりません"
+  echo "/copy-labelsを実行してラベルを設定することを推奨します"
+fi
+```
+
+#### Issue作成実行
+
 承認後、順次Issueを作成:
 
 ```bash
-# Issueテンプレート使用
+# 標準ラベルを使用したIssue作成
 gh issue create \
   --title "[Bug] 型エラー: UserProfile.tsでnullチェック不足" \
   --body "$(cat issue_content.md)" \
-  --label "bug,priority: high" \
+  --label "Type：バグ" \
+  --label "Priority：中" \
   --assignee "@me"
 ```
 
 各Issue作成後:
 - 作成されたIssue番号とURLを記録
+- ラベルが存在しない場合のエラーハンドリング
 - Todoリストのタスクを完了にマーク
 
 ### ステップ8: 結果レポート

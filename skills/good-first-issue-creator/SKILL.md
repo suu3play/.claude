@@ -294,9 +294,15 @@ git push origin main
 ```
 
 #### 3. ラベル設定
-- `good first issue`（必須）
-- `documentation`, `enhancement`, `ui`, `testing`など（カテゴリ）
-- `help wanted`（協力募集）
+
+標準ラベル（`.claude/labels.md`から読み込み）:
+- **必須**: `Type：good first issue`
+- **カテゴリ**:
+  - ドキュメント → `Type：ドキュメント更新`
+  - UI/スタイル → `Type：新機能・既存改修`
+  - テスト → `Type：作業`
+  - バグ修正 → `Type：バグ`
+- **優先度**: `Priority：低` または `Priority：中`
 
 #### 4. 推定時間
 - 30分未満
@@ -319,15 +325,29 @@ git push origin main
    よろしいですか？
    ```
 
-2. **承認後、順次Issue作成**
+2. **標準ラベルの読み込み**
    ```bash
+   # labels.mdの存在確認
+   if [ -f ".claude/labels.md" ]; then
+     cat .claude/labels.md
+   else
+     echo "警告: .claude/labels.mdが見つかりません"
+     echo "/copy-labelsを実行してラベルを設定することを推奨します"
+   fi
+   ```
+
+3. **承認後、順次Issue作成**
+   ```bash
+   # 標準ラベルを使用したIssue作成
    gh issue create \
      --title "[Good First Issue] READMEにインストール手順を追加" \
      --body "$(cat issue_content.md)" \
-     --label "good first issue,documentation,help wanted"
+     --label "Type：good first issue" \
+     --label "Type：ドキュメント更新" \
+     --label "Priority：低"
    ```
 
-3. **作成結果の報告**
+4. **作成結果の報告**
    ```
    Good First Issue作成完了:
    - #50: [Good First Issue] READMEにインストール手順を追加
@@ -488,9 +508,9 @@ async function getUser(userId: string): Promise<User> {
    - レビューポイント
 
 5. **適切なラベル付け**
-   - `good first issue`は必須
-   - カテゴリラベルも追加
-   - `help wanted`で協力募集
+   - `Type：good first issue`は必須（`.claude/labels.md`から）
+   - カテゴリラベル（Type系）も追加
+   - Priority系ラベルで優先度を設定
 
 ## 関連スキル・コマンド
 

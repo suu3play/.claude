@@ -176,15 +176,40 @@ description: コード分析結果を基にユーザーと対話しながら適�
 
 ### ステップ5: GitHub Issue作成
 
+#### 5-1: 標準ラベルの読み込み
+
+Issue作成前に`.claude/labels.md`から標準ラベル定義を読み込む:
+
+```bash
+# labels.mdの存在確認と読み込み
+cat .claude/labels.md
+```
+
+ラベルマッピング:
+- **Type系ラベル**（必須）
+  - バグ → `Type：バグ`
+  - リファクタリング → `Type：リファクタリング`
+  - ドキュメント → `Type：ドキュメント更新`
+  - 新機能 → `Type：新機能・既存改修`
+  - 作業 → `Type：作業`
+
+- **Priority系ラベル**（必須）
+  - Critical → `Priority：最優先`
+  - High → `Priority：中`
+  - Medium → `Priority：中`
+  - Low → `Priority：低`
+
+#### 5-2: Issue作成実行
+
 承認後、順次Issueを作成:
 
 ```bash
-# ラベル設定を含めたIssue作成
+# 標準ラベルを使用したIssue作成
 gh issue create \
   --title "[Bug] 欠落モデルファイルの作成 (Badge, Goal関連)" \
   --body-file issue_content_1.md \
-  --label "bug,priority: critical,needs-implementation" \
-  --milestone "v1.0"
+  --label "Type：バグ" \
+  --label "Priority：最優先"
 ```
 
 **作成時の注意点**:
@@ -193,10 +218,14 @@ gh issue create \
    - 大量Issue作成時は5件ごとに1秒待機
    - エラー発生時は自動リトライ（最大3回）
 
-2. **ラベルの自動付与**
-   - カテゴリラベル: `bug`, `refactoring`, `documentation`, `performance`, `testing`, `security`
-   - 優先度ラベル: `priority: critical`, `priority: high`, `priority: medium`, `priority: low`
-   - 状態ラベル: `needs-implementation`, `needs-review`
+2. **標準ラベルの適用**
+   - `.claude/labels.md`から読み取った標準ラベルを使用
+   - プロジェクトに標準ラベルが未設定の場合は警告を表示
+   - Type系ラベルとPriority系ラベルを必ず付与
+
+3. **ラベルが存在しない場合の対応**
+   - 標準ラベルがプロジェクトに未設定の場合、`/copy-labels`実行を提案
+   - ラベルなしでIssueを作成するか確認
 
 3. **マイルストーンの設定**
    - ユーザーに確認してマイルストーンを設定
