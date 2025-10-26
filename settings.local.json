@@ -58,7 +58,13 @@
       "Bash(node:*)",
       "Bash(curl:*)",
       "Bash(git remote get-url:*)",
-      "Bash(git rebase:*)"
+      "Bash(git rebase:*)",
+      "Bash(flutter analyze:*)",
+      "Skill(skills-creator)",
+      "Bash(for dir in */)",
+      "Bash(do if [ -d \"$dir/.git\" ])",
+      "Bash(then echo \"$dir%/\")",
+      "Bash(fi)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
