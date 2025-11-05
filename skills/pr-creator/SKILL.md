@@ -15,6 +15,17 @@ description: コード品質チェック（型チェック、Lint、ビルド）
 - 「変更をプッシュしてPR作成して」と依頼された時
 - 「コード確認してPR作成して」と依頼された時
 
+## 主な機能
+
+- **厳格なコード品質チェック**: 型チェック、Lint、ビルド、テストを実行
+- **バージョン番号管理**: プロジェクトのバージョンが未更新の場合、セマンティックバージョニングに基づいて更新を提案
+  - Node.js/npm: package.json
+  - C#/.NET: .csprojファイル (Version, AssemblyVersion, FileVersion)
+  - プロジェクトタイプの自動検出
+- **自動コミット・プッシュ**: Conventional Commits形式でコミットし、リモートにプッシュ
+- **プルリクエスト自動作成**: テンプレートに従ったPRを自動生成
+- **包括的なエラーハンドリング**: 各ステップで適切なエラー処理と対処方法を提示
+
 ## 実行フロー
 
 ### ステップ1: 開発ワークフローとテンプレートの読み込み
@@ -191,7 +202,138 @@ PR作成の準備が完了しています。
 EOF
 ```
 
-### ステップ5: 変更内容の確認とコミット
+### ステップ5: バージョン番号のチェックと更新
+
+**プロジェクトタイプの自動検出**:
+```bash
+# バージョン管理ファイルを検出
+if [ -f package.json ]; then
+  PROJECT_TYPE="npm"
+  VERSION_FILE="package.json"
+elif [ -n "$(find . -maxdepth 2 -name "*.csproj" | head -n 1)" ]; then
+  PROJECT_TYPE="csharp"
+  VERSION_FILE=$(find . -maxdepth 2 -name "*.csproj" | head -n 1)
+else
+  echo "⚠️ バージョン管理ファイルが見つかりません。バージョンチェックをスキップします。"
+  PROJECT_TYPE="none"
+fi
+```
+
+#### Node.js/npm プロジェクト (package.json)
+
+1. **package.jsonの存在確認**
+   ```bash
+   # package.jsonが存在するか確認
+   if [ -f package.json ]; then
+     echo "✓ package.jsonが見つかりました"
+   fi
+   ```
+
+2. **現在のバージョン番号を取得**
+   ```bash
+   # 現在のバージョン
+   CURRENT_VERSION=$(node -p "require('./package.json').version")
+   echo "現在のバージョン: $CURRENT_VERSION"
+   ```
+
+3. **最新コミットのバージョンと比較**
+   ```bash
+   # mainブランチ（またはベースブランチ）の最新バージョン
+   git show main:package.json > /tmp/package.json.main
+   MAIN_VERSION=$(node -p "require('/tmp/package.json.main').version")
+   echo "mainブランチのバージョン: $MAIN_VERSION"
+   ```
+
+#### C#/.NET プロジェクト (.csproj)
+
+1. **.csprojファイルの検出**
+   ```bash
+   # .csprojファイルを検索
+   CSPROJ_FILE=$(find . -maxdepth 2 -name "*.csproj" | head -n 1)
+   if [ -n "$CSPROJ_FILE" ]; then
+     echo "✓ .csprojファイルが見つかりました: $CSPROJ_FILE"
+   fi
+   ```
+
+2. **現在のバージョン番号を取得**
+   ```bash
+   # XMLから<Version>タグを抽出
+   CURRENT_VERSION=$(grep -oP '<Version>\K[^<]+' "$CSPROJ_FILE")
+   echo "現在のバージョン: $CURRENT_VERSION"
+   ```
+
+3. **mainブランチのバージョンと比較**
+   ```bash
+   # mainブランチの.csprojファイルからバージョンを取得
+   MAIN_VERSION=$(git show "main:$CSPROJ_FILE" | grep -oP '<Version>\K[^<]+')
+   echo "mainブランチのバージョン: $MAIN_VERSION"
+   ```
+
+4. **バージョン更新が必要か判定**
+
+   バージョンが同じ場合、ユーザーに提案:
+   ```
+   ⚠️ バージョン番号が更新されていません
+
+   現在のバージョン: 2.0.0
+   mainブランチ: 2.0.0
+
+   変更内容に応じてバージョンを更新することを推奨します。
+
+   セマンティックバージョニング:
+   - MAJOR (X.0.0): 破壊的変更
+   - MINOR (0.X.0): 新機能追加（後方互換性あり）
+   - PATCH (0.0.X): バグ修正
+
+   どのバージョンを上げますか？
+   1. major (破壊的変更) → 3.0.0
+   2. minor (新機能) → 2.1.0
+   3. patch (バグ修正) → 2.0.1
+   4. スキップ（バージョンを上げない）
+   ```
+
+5. **ユーザーの選択に基づいてバージョン更新**
+
+   **Node.js/npm プロジェクト**:
+   ```bash
+   # ユーザーが選択した場合
+   npm version [major|minor|patch] --no-git-tag-version
+
+   # 更新されたバージョンを確認
+   NEW_VERSION=$(node -p "require('./package.json').version")
+   echo "✅ バージョンを更新しました: $CURRENT_VERSION → $NEW_VERSION"
+   ```
+
+   **C#/.NET プロジェクト**:
+   ```bash
+   # バージョンを計算（例: 2.0.0 → 2.1.0）
+   IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+   case "$VERSION_TYPE" in
+     major) NEW_VERSION="$((major + 1)).0.0" ;;
+     minor) NEW_VERSION="$major.$((minor + 1)).0" ;;
+     patch) NEW_VERSION="$major.$minor.$((patch + 1))" ;;
+   esac
+
+   # .csprojファイルのバージョンを更新
+   sed -i "s|<Version>$CURRENT_VERSION</Version>|<Version>$NEW_VERSION</Version>|" "$CSPROJ_FILE"
+
+   # AssemblyVersionも更新（存在する場合）
+   sed -i "s|<AssemblyVersion>$CURRENT_VERSION</AssemblyVersion>|<AssemblyVersion>$NEW_VERSION</AssemblyVersion>|" "$CSPROJ_FILE"
+   sed -i "s|<FileVersion>$CURRENT_VERSION</FileVersion>|<FileVersion>$NEW_VERSION</FileVersion>|" "$CSPROJ_FILE"
+
+   echo "✅ バージョンを更新しました: $CURRENT_VERSION → $NEW_VERSION"
+   echo "   更新ファイル: $CSPROJ_FILE"
+   ```
+
+6. **バージョン更新の判断基準**
+
+   コミットメッセージのプレフィックスから推測:
+   - `feat:` → MINOR バージョンアップを提案
+   - `fix:` → PATCH バージョンアップを提案
+   - `BREAKING CHANGE` または `!` → MAJOR バージョンアップを提案
+   - `docs:`, `chore:`, `refactor:`, `test:` → バージョンアップ不要の可能性
+
+### ステップ6: 変更内容の確認とコミット
 
 1. **変更ファイルの整理**
    ```bash
@@ -243,7 +385,7 @@ EOF
    )"
    ```
 
-### ステップ6: リモートへプッシュ
+### ステップ7: リモートへプッシュ
 
 ```bash
 # カレントブランチをリモートにプッシュ
@@ -255,7 +397,7 @@ git push -u origin $(git branch --show-current)
 - 権限エラー → 認証情報の確認を依頼
 - ネットワークエラー → 再試行を提案
 
-### ステップ7: プルリクエストの作成
+### ステップ8: プルリクエストの作成
 
 1. **PR内容の構成**
 
@@ -326,7 +468,7 @@ git push -u origin $(git branch --show-current)
    echo "✅ プルリクエストを作成しました: $PR_URL"
    ```
 
-### ステップ8: 結果報告とTodo更新
+### ステップ9: 結果報告とTodo更新
 
 1. **作成結果のサマリー表示**
    ```
@@ -366,10 +508,14 @@ git push -u origin $(git branch --show-current)
 2. 開発ワークフローとテンプレート読み込み
 3. git statusで変更確認
 4. flutter analyzeなど品質チェック実行
-5. すべて成功 → コミット
-6. プッシュ
-7. PR作成
-8. PR URLを報告
+5. すべて成功
+6. package.jsonのバージョン確認
+   - mainブランチと同じバージョンの場合、更新を提案
+   - ユーザーが選択（major/minor/patch/スキップ）
+7. コミット
+8. プッシュ
+9. PR作成
+10. PR URLを報告
 
 ### 例2: カレントディレクトリで実行
 
@@ -379,7 +525,81 @@ git push -u origin $(git branch --show-current)
 1. カレントディレクトリから自動判定
 2. 以降は例1と同じフロー
 
-### 例3: エラー発生時
+### 例3: バージョン番号更新を伴うPR作成
+
+**ユーザー**: clilog-viewerのPR作成して
+
+**スキルの動作**:
+1. clilog-viewerディレクトリに移動
+2. 品質チェック実行 → すべて成功
+3. package.jsonのバージョンチェック
+   ```
+   ⚠️ バージョン番号が更新されていません
+
+   現在のバージョン: 2.0.0
+   mainブランチ: 2.0.0
+
+   コミットメッセージ: feat: CI/CDパイプラインの構築 #54
+   推奨: MINOR バージョンアップ (新機能追加)
+
+   どのバージョンを上げますか？
+   1. major (破壊的変更) → 3.0.0
+   2. minor (新機能) → 2.1.0 ★推奨
+   3. patch (バグ修正) → 2.0.1
+   4. スキップ（バージョンを上げない）
+   ```
+4. ユーザーが「2」を選択
+5. npm version minor実行 → 2.1.0に更新
+6. package.jsonをコミットに含める
+7. プッシュ・PR作成
+
+### 例4: C#プロジェクトでのバージョン更新
+
+**ユーザー**: MyWebAPIのPR作成して
+
+**スキルの動作**:
+1. MyWebAPIディレクトリに移動
+2. 品質チェック実行（dotnet build, dotnet test） → すべて成功
+3. .csprojファイルのバージョンチェック
+   ```
+   ⚠️ バージョン番号が更新されていません
+
+   現在のバージョン: 1.2.0
+   mainブランチ: 1.2.0
+   検出ファイル: MyWebAPI/MyWebAPI.csproj
+
+   コミットメッセージ: fix: ユーザー認証のバグを修正 #89
+   推奨: PATCH バージョンアップ (バグ修正)
+
+   どのバージョンを上げますか？
+   1. major (破壊的変更) → 2.0.0
+   2. minor (新機能) → 1.3.0
+   3. patch (バグ修正) → 1.2.1 ★推奨
+   4. スキップ（バージョンを上げない）
+   ```
+4. ユーザーが「3」を選択
+5. .csprojファイルの以下のタグを更新:
+   ```xml
+   <Version>1.2.1</Version>
+   <AssemblyVersion>1.2.1</AssemblyVersion>
+   <FileVersion>1.2.1</FileVersion>
+   ```
+6. MyWebAPI.csprojをコミットに含める
+7. プッシュ・PR作成
+
+**更新される.csprojの例**:
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Version>1.2.1</Version>
+    <AssemblyVersion>1.2.1</AssemblyVersion>
+    <FileVersion>1.2.1</FileVersion>
+  </PropertyGroup>
+</Project>
+```
+
+### 例5: エラー発生時
 
 **ユーザー**: PR作成して
 
@@ -525,19 +745,28 @@ URL: https://github.com/user/repo/pull/12
    - すべてのチェックが成功するまでPR作成しません
    - 妥協せず品質を保証します
 
-2. **開発ワークフロー遵守**
+2. **バージョン番号管理**
+   - プロジェクトタイプを自動検出し、適切なバージョンファイルをチェック
+     - Node.js/npm: package.json
+     - C#/.NET: *.csproj (Version, AssemblyVersion, FileVersion)
+   - mainブランチとバージョンが同じ場合、更新を提案
+   - セマンティックバージョニング（SemVer）に準拠
+   - コミットメッセージから推奨バージョンを自動判定
+   - ユーザーが最終判断（スキップも可能）
+
+3. **開発ワークフロー遵守**
    - プロジェクトのルールに従います
    - コミットメッセージ規約を守ります
 
-3. **自動化の範囲**
+4. **自動化の範囲**
    - コミット・プッシュ・PR作成まで自動
    - レビューやマージは手動
 
-4. **ログの保存**
+5. **ログの保存**
    - 品質チェック結果は `./logs/` に保存
    - トラブルシューティングに活用
 
-5. **Issue連携**
+6. **Issue連携**
    - Issue番号が含まれる場合は自動リンク
    - `fixes #XX` でクローズ連携
 
