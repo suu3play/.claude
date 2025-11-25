@@ -64,7 +64,18 @@
       "Bash(for dir in */)",
       "Bash(do if [ -d \"$dir/.git\" ])",
       "Bash(then echo \"$dir%/\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(git mv:*)",
+      "Bash(find:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(dotnet add:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet tool list:*)",
+      "Bash(dotnet tool install:*)",
+      "Bash(dotnet ef migrations add:*)",
+      "Bash(dotnet test:*)",
+      "Skill(code-analyzer)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
@@ -90,5 +101,9 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bun x ccusage statusline"
   }
 }
