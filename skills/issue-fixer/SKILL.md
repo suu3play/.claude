@@ -1,6 +1,6 @@
 ---
 name: issue-fixer
-description: GitHub Issueの内容を分析して改修計画を自動作成するスキル。「issueから改修して」「issue対応して」「issue番号XXを修正して」と依頼された時に使用。開発ワークフローに従ってブランチ作成から改修計画立案までを実行
+description: GitHub Issueの内容を分析して改修計画を自動作成するスキル。「issue XXを改修」「issueから改修して」「issue対応して」「issue番号XXを修正して」と依頼された時に使用。開発ワークフローに従ってブランチ作成から改修計画立案までを実行
 ---
 
 # Issue Fixer - GitHub Issue自動改修スキル
@@ -9,10 +9,15 @@ description: GitHub Issueの内容を分析して改修計画を自動作成す�
 
 ## 使用タイミング
 
-- 「issueから改修して」と依頼された時
-- 「issue対応して」と依頼された時
-- 「issue番号XXを修正して」と依頼された時
-- 「GitHub IssueのXXを対応して」と依頼された時
+以下のいずれかの表現でIssue対応を依頼された時に自動的に起動します：
+
+- 「issue XXを改修」「issue XXを改修して」
+- 「issueから改修して」「issueを改修」
+- 「issue対応して」「issue対応」
+- 「issue番号XXを修正して」「issueXXを修正」
+- 「GitHub IssueのXXを対応して」
+
+**重要**: Issue番号や「issue」「改修」「修正」「対応」などのキーワードが含まれる依頼は、このスキルで処理されます。
 
 ## 実行フロー
 
