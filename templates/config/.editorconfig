@@ -1,0 +1,46 @@
+# EditorConfig: https://EditorConfig.org
+
+# トップレベル設定
+root = true
+
+# すべてのファイルに適用
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# コードファイル
+[*.{js,jsx,ts,tsx,json,css,scss,html,vue}]
+indent_style = space
+indent_size = 2
+
+# Python
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+
+# C#
+[*.cs]
+indent_style = space
+indent_size = 4
+
+# Markdown
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = 80
+
+# YAML
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Makefile
+[Makefile]
+indent_style = tab
+
+# package.json等
+[package.json]
+indent_style = space
+indent_size = 2
