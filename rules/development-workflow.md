@@ -9,18 +9,21 @@
 
 ### 基本的な作業の流れ
 
-1. **厳格なコード品質チェック**を実行し、すべて成功することを確認（結果は ./logs/code_check_yyyyMMddHHmm.md に出力）
-    - 型チェック（TypeScript/Python 型ヒント）
-    - 構文エラーチェック
-    - null / undefined チェック
-    - 配列の範囲外アクセスの可能性
-    - 無限ループの可能性
-    - 無効な再帰
-    - パス／ファイル存在確認
-    - 非同期処理の漏れ（Promise 未処理、async/await 不整合）
-    - スペルチェック（変数名、コメント、文字列リテラル）
-    - リント・フォーマットチェック
-    - ビルドが正常終了
+1. **厳格なコード品質チェック**を実行し、すべて成功することを確認
+    - 結果は `./code_check/code_check_yyyyMMddHHmm.md` に出力（形式: `.claude/templates/code-quality-check-template.md`）
+    - チェック項目詳細は `.claude/rules/testing-requirements.md` を参照
+    - 主要チェック項目:
+        - 型チェック（TypeScript/Python 型ヒント）
+        - 構文エラーチェック
+        - null / undefined チェック
+        - 配列の範囲外アクセスの可能性
+        - 無限ループの可能性
+        - 無効な再帰
+        - パス／ファイル存在確認
+        - 非同期処理の漏れ（Promise 未処理、async/await 不整合）
+        - スペルチェック（変数名、コメント、文字列リテラル）
+        - リント・フォーマットチェック
+        - ビルドが正常終了
 2. 作業内容をコミット。メッセージは Conventional Commits 形式に従うこと（feat:, fix:, docs:, refactor:, test: など）
 3. **修正内容をユーザーに報告し、確認を待つ**
     - 変更ファイル一覧と変更内容のサマリーを表示

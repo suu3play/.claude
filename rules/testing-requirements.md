@@ -1,8 +1,5 @@
 # テスト要件
 
--   **注意**: + `.claude/`ディレクトリは隠しディレクトリです。確認時は`ls
-    -   -la`コマンドまたは`find`コマンドを使用してください。
-
 ## テスト実施タイミング
 
 -   **機能実装完了後、コミット前**に必ずテストを実行すること
@@ -12,7 +9,10 @@
 
 各チェック項目の実施方法と結果記録：
 
--   **tested.log**ファイルに`.claude/templates/code-quality-check-template.md`の形式で結果を記録（ファイルがある場合は、追記）
+-   プロジェクトルートの`./code_check/`ディレクトリに品質チェック結果を記録
+-   ファイル名: `code_check_yyyyMMddHHmm.md`（例: `code_check_202501151430.md`）
+-   記録形式: `.claude/templates/code-quality-check-template.md`のテンプレートに従う
+-   各実行ごとに新規ファイルを作成し、履歴として保持
 
 ## テスト内容
 
