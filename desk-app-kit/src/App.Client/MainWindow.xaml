@@ -15,57 +15,52 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- ヘッダー -->
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <!-- ヘッダー（タイトルバーとメニューバーの統合） -->
+        <Border Grid.Row="0" Background="#2196F3" Padding="16,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- タイトルバー -->
-            <Border Grid.Row="0" Background="#2196F3" Padding="16,12">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                <!-- アプリケーション名 -->
+                <TextBlock Grid.Column="0" Text="DeskAppKit" FontSize="18" FontWeight="Bold"
+                           Foreground="White" VerticalAlignment="Center" Margin="0,0,24,0"/>
 
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="DeskAppKit" FontSize="20" FontWeight="Bold" Foreground="White" Margin="0,0,16,0"/>
-                        <TextBlock Text="{Binding CurrentViewTitle}" FontSize="16" Foreground="White" VerticalAlignment="Center"/>
-                    </StackPanel>
+                <!-- メニュー項目 -->
+                <Menu Grid.Column="1" Background="Transparent" VerticalAlignment="Center">
+                    <MenuItem Header="設定(_S)" Command="{Binding ShowSettingsCommand}"
+                              Foreground="White" Padding="12,6">
+                        <MenuItem.ToolTip>
+                            <ToolTip Content="アプリケーション設定"/>
+                        </MenuItem.ToolTip>
+                    </MenuItem>
+                    <MenuItem Header="診断(_D)" Command="{Binding ShowDiagnosticsCommand}"
+                              Foreground="White" Padding="12,6">
+                        <MenuItem.ToolTip>
+                            <ToolTip Content="ヘルスチェック・ログ表示"/>
+                        </MenuItem.ToolTip>
+                    </MenuItem>
+                    <MenuItem Header="バージョン情報(_A)" Command="{Binding ShowAboutCommand}"
+                              Foreground="White" Padding="12,6">
+                        <MenuItem.ToolTip>
+                            <ToolTip Content="アプリケーション情報"/>
+                        </MenuItem.ToolTip>
+                    </MenuItem>
+                </Menu>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <TextBlock Text="{Binding WelcomeMessage}" Foreground="White" VerticalAlignment="Center" Margin="0,0,16,0"/>
-                        <Button Content="ログアウト" Command="{Binding LogoutCommand}"
-                                Background="#1976D2" Foreground="White" BorderThickness="0"
-                                Padding="12,6" Cursor="Hand"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
-
-            <!-- メニューバー -->
-            <Menu Grid.Row="1" Background="#1976D2">
-                <MenuItem Header="設定(_S)" Command="{Binding ShowSettingsCommand}"
-                          Foreground="White" Padding="12,8">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="アプリケーション設定"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-                <MenuItem Header="診断(_D)" Command="{Binding ShowDiagnosticsCommand}"
-                          Foreground="White" Padding="12,8">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="ヘルスチェック・ログ表示"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-                <MenuItem Header="バージョン情報(_A)" Command="{Binding ShowAboutCommand}"
-                          Foreground="White" Padding="12,8">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="アプリケーション情報"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-            </Menu>
-        </Grid>
+                <!-- 右側の情報 -->
+                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding WelcomeMessage}" Foreground="White"
+                               VerticalAlignment="Center" Margin="0,0,16,0"/>
+                    <Button Content="ログアウト" Command="{Binding LogoutCommand}"
+                            Background="#1976D2" Foreground="White" BorderThickness="0"
+                            Padding="12,6" Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+        </Border>
 
         <!-- メインコンテンツエリア -->
         <Grid Grid.Row="1" Margin="24">
