@@ -20,7 +20,6 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
@@ -29,30 +28,29 @@
                 <TextBlock Grid.Column="0" Text="DeskAppKit" FontSize="18" FontWeight="Bold"
                            Foreground="White" VerticalAlignment="Center" Margin="0,0,24,0"/>
 
-                <!-- メニュー項目 -->
-                <Menu Grid.Column="1" Background="Transparent" VerticalAlignment="Center">
-                    <MenuItem Header="設定(_S)" Command="{Binding ShowSettingsCommand}"
-                              Foreground="White" Padding="12,6">
-                        <MenuItem.ToolTip>
-                            <ToolTip Content="アプリケーション設定"/>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-                    <MenuItem Header="診断(_D)" Command="{Binding ShowDiagnosticsCommand}"
-                              Foreground="White" Padding="12,6">
-                        <MenuItem.ToolTip>
-                            <ToolTip Content="ヘルスチェック・ログ表示"/>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-                    <MenuItem Header="バージョン情報(_A)" Command="{Binding ShowAboutCommand}"
-                              Foreground="White" Padding="12,6">
-                        <MenuItem.ToolTip>
-                            <ToolTip Content="アプリケーション情報"/>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-                </Menu>
-
-                <!-- 右側の情報 -->
-                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                <!-- 右側: メニューボタン群とユーザー情報 -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="設定" Command="{Binding ShowSettingsCommand}"
+                            Background="#1976D2" Foreground="White" BorderThickness="0"
+                            Padding="16,6" Margin="0,0,8,0" Cursor="Hand">
+                        <Button.ToolTip>
+                            <ToolTip Content="アプリケーション設定 (Alt+S)"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="診断" Command="{Binding ShowDiagnosticsCommand}"
+                            Background="#1976D2" Foreground="White" BorderThickness="0"
+                            Padding="16,6" Margin="0,0,8,0" Cursor="Hand">
+                        <Button.ToolTip>
+                            <ToolTip Content="ヘルスチェック・ログ表示 (Alt+D)"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="バージョン情報" Command="{Binding ShowAboutCommand}"
+                            Background="#1976D2" Foreground="White" BorderThickness="0"
+                            Padding="16,6" Margin="0,0,16,0" Cursor="Hand">
+                        <Button.ToolTip>
+                            <ToolTip Content="アプリケーション情報 (Alt+A)"/>
+                        </Button.ToolTip>
+                    </Button>
                     <TextBlock Text="{Binding WelcomeMessage}" Foreground="White"
                                VerticalAlignment="Center" Margin="0,0,16,0"/>
                     <Button Content="ログアウト" Command="{Binding LogoutCommand}"
