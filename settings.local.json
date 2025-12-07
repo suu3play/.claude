@@ -75,7 +75,8 @@
       "Bash(dotnet tool install:*)",
       "Bash(dotnet ef migrations add:*)",
       "Bash(dotnet test:*)",
-      "Skill(code-analyzer)"
+      "Skill(code-analyzer)",
+      "Bash(git stash:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
