@@ -1,19 +1,19 @@
 ---
 name: code-analyzer
-description: プロジェクトのソースコードを分析してバグ、リファクタリング案、改修提案を特定し、GitHub Issueとして自動登録するスキル。「コードを分析してissue登録」「バグやリファクタリング案をissue化」「改修案をissueにして」と依頼された時に使用
+description: プロジェクトのソースコードを分析してバグ、リファクタリング案、改修提案を特定するスキル。「コードを分析して」「バグやエラーをチェック」「静的解析を実行」と依頼された時に使用。分析結果を整理して報告し、必要に応じてissue-creatorスキルと連携
 ---
 
-# Code Analyzer - コード分析・Issue自動登録スキル
+# Code Analyzer - コード分析スキル
 
-このスキルは、プロジェクトのソースコードを分析し、バグ、リファクタリング案、その他の改修提案を特定してGitHub Issueとして自動登録します。
+このスキルは、プロジェクトのソースコードを分析し、バグ、リファクタリング案、その他の改修提案を特定して報告します。
 
 ## 使用タイミング
 
-- 「コードを分析してissue登録して」と依頼された時
-- 「バグやリファクタリング案をissue化して」と依頼された時
-- 「改修案をissueにして」と依頼された時
-- 「コードレビューしてissue作成して」と依頼された時
-- 「技術的負債をissueにして」と依頼された時
+- 「コードを分析して」と依頼された時
+- 「バグやエラーをチェックして」と依頼された時
+- 「静的解析を実行して」と依頼された時
+- 「コードレビューして」と依頼された時
+- 「技術的負債を確認して」と依頼された時
 
 ## 実行フロー
 
@@ -35,6 +35,7 @@ description: プロジェクトのソースコードを分析してバグ、リ�
    - Flutter/Dart (pubspec.yaml)
    - Rust (Cargo.toml)
    - Go (go.mod)
+   - C# (.csproj, .sln)
 
 ### ステップ2: 静的解析・エラーチェック
 
@@ -80,6 +81,15 @@ cargo check
 cargo clippy -- -W clippy::all
 ```
 
+#### C#
+```bash
+# ビルド
+dotnet build
+
+# コード分析
+dotnet format --verify-no-changes
+```
+
 ### ステップ3: コード分析
 
 1. **エラー・警告の収集**
@@ -110,7 +120,7 @@ cargo clippy -- -W clippy::all
 - 配列範囲外アクセス
 - 無限ループの可能性
 
-**標準ラベル**: `Type：バグ`, `Priority：最優先` または `Priority：中`
+**優先度**: Critical または High
 
 #### 🔧 リファクタリング (Refactoring)
 - コードの重複
@@ -119,46 +129,44 @@ cargo clippy -- -W clippy::all
 - 命名の問題
 - 複雑度の高いコード
 
-**標準ラベル**: `Type：リファクタリング`, `Priority：中` または `Priority：低`
+**優先度**: Medium または Low
 
 #### 📝 ドキュメント (Documentation)
 - TODOコメント
 - 未ドキュメント化のAPI
 - README更新
 
-**標準ラベル**: `Type：ドキュメント更新`, `Priority：低`
+**優先度**: Low
 
 #### ⚡ パフォーマンス (Performance)
 - 非効率なアルゴリズム
 - 不要な再レンダリング
 - メモリリークの可能性
 
-**標準ラベル**: `Type：リファクタリング`, `Priority：中`
+**優先度**: Medium
 
 #### 🧪 テスト (Testing)
 - テストカバレッジ不足
 - テストの欠如
 - テストの改善提案
 
-**標準ラベル**: `Type：作業`, `Priority：中`
+**優先度**: Medium
 
 #### 🔒 セキュリティ (Security)
 - ハードコードされた認証情報
 - SQLインジェクションの可能性
 - XSSの脆弱性
 
-**標準ラベル**: `Type：バグ`, `Priority：最優先`
-
-**注意**: 全ての標準ラベルは`.claude/labels.md`から読み込まれます。プロジェクトに標準ラベルが未設定の場合は、Issue作成前に`/copy-labels`の実行を提案します。
+**優先度**: Critical
 
 #### ♿ アクセシビリティ (Accessibility)
 - aria属性の欠如
 - キーボードナビゲーション
 - コントラスト比の問題
 
-**ラベル**: `accessibility`
+**優先度**: Medium
 
-### ステップ5: Issue作成計画の策定
+### ステップ5: 分析結果の整理と報告
 
 1. **優先度の決定**
    - Critical: セキュリティ、ビルドエラー
@@ -166,204 +174,211 @@ cargo clippy -- -W clippy::all
    - Medium: リファクタリング、パフォーマンス
    - Low: ドキュメント、軽微な改善
 
-2. **Issue内容の構成**
-   各Issueに以下を含める:
-   - タイトル: 簡潔で具体的
-   - 説明: 問題の詳細
-   - 影響範囲: 影響を受けるファイル
-   - 修正方法: 具体的な修正案
-   - 優先度: ラベルで表現
-   - 見積もり: 修正にかかる時間の目安
-
-3. **TodoWriteで作業計画を作成**
-   - 各Issue作成タスクを登録
-   - 優先度順に整理
-
-### ステップ6: ユーザー確認
-
-1. **分析結果のサマリーを表示**
+2. **サマリーの表示**
    ```
-   分析結果:
-   - バグ: 5件
-   - リファクタリング: 12件
-   - ドキュメント: 3件
-   - パフォーマンス: 2件
-   - テスト: 4件
-   合計: 26件の改修案
+   📊 コード分析結果サマリー
+
+   総問題数: 362件
+   - 🔴 Critical: 31件（ビルドエラー、欠落ファイル）
+   - 🟠 High: 148件（型エラー、未定義メソッド）
+   - 🟡 Medium: 150件（Null安全性、リファクタリング）
+   - ⚪ Low: 33件（デバッグコード、TODOコメント）
+
+   カテゴリ別:
+   - 🐛 バグ: 180件
+   - 🔧 リファクタリング: 120件
+   - 📝 ドキュメント: 36件
+   - ⚡ パフォーマンス: 15件
+   - 🧪 テスト: 11件
    ```
 
-2. **作成するIssueのプレビュー**
-   - 各カテゴリから代表的なIssue内容を表示
-   - ユーザーに承認を求める
+3. **詳細レポートの生成（オプション）**
+   `./reports/code_analysis_yyyyMMddHHmm.md`に保存:
 
-3. **フィルタリングオプション**
-   - 「優先度Highのみ作成」
-   - 「バグのみ作成」
-   - 「すべて作成」
+   ```markdown
+   # コード分析レポート
 
-### ステップ7: GitHub Issue作成
+   実行日時: 2025-11-26 14:30
+   プロジェクト: [project-name]
+   プロジェクトタイプ: Flutter/Dart
 
-#### 標準ラベルの読み込み
+   ## サマリー
+   総問題数: 362件
+   - Critical: 31件
+   - High: 148件
+   - Medium: 150件
+   - Low: 33件
 
-Issue作成前に`.claude/labels.md`から標準ラベル定義を読み込む:
+   ## 詳細
 
-```bash
-# labels.mdの存在確認
-if [ -f ".claude/labels.md" ]; then
-  cat .claude/labels.md
-else
-  echo "警告: .claude/labels.mdが見つかりません"
-  echo "/copy-labelsを実行してラベルを設定することを推奨します"
-fi
+   ### Critical (31件)
+
+   #### 1. 欠落ファイル参照
+   - badge.dart が存在しない
+     - 影響: lib/usecases/badge_management_usecase.dart:5
+   - goal.dart が存在しない
+     - 影響: lib/usecases/goal_management_usecase.dart:3
+
+   #### 2. ビルドエラー
+   - Unicodeエスケープエラー
+     - 影響: lib/usecases/goal_management_usecase.dart:11
+
+   ### High (148件)
+
+   #### 1. 型定義エラー
+   - BadgeManagementUsecase で84件の型エラー
+   - GoalManagementUsecase で53件の型エラー
+
+   #### 2. 未定義識別子
+   - AnswerRepository が未定義（20箇所）
+
+   [...]
+   ```
+
+### ステップ6: 次のステップの提案
+
+分析結果に応じて、ユーザーに次のアクションを提案:
+
 ```
+次のステップ:
 
-#### Issue作成実行
-
-承認後、順次Issueを作成:
-
-```bash
-# 標準ラベルを使用したIssue作成
-gh issue create \
-  --title "[Bug] 型エラー: UserProfile.tsでnullチェック不足" \
-  --body "$(cat issue_content.md)" \
-  --label "Type：バグ" \
-  --label "Priority：中" \
-  --assignee "@me"
+1. Critical問題を優先的に修正
+2. issue-creatorスキルでGitHub Issueを作成
+   - 「分析結果からissueを作成して」と依頼してください
+3. issue-fixerスキルで各Issueに対応
+4. 修正後に再度コード分析を実行して確認
 ```
-
-各Issue作成後:
-- 作成されたIssue番号とURLを記録
-- ラベルが存在しない場合のエラーハンドリング
-- Todoリストのタスクを完了にマーク
-
-### ステップ8: 結果レポート
-
-1. **作成結果のまとめ**
-   ```
-   Issue作成完了:
-   - #45: [Bug] 型エラー修正
-   - #46: [Refactoring] UserService.tsのコード重複削除
-   - #47: [Testing] ログインフローのテスト追加
-   ...
-   合計: 26件のIssueを作成しました
-   ```
-
-2. **Markdownレポート生成（オプション）**
-   - `./reports/code_analysis_yyyyMMddHHmm.md`に保存
-   - 分析結果と作成したIssue一覧
 
 ## 使用例
 
 ### 例1: プロジェクト全体を分析
 
-**ユーザー**: growth-diary のコードを分析してissue登録して
+**ユーザー**: growth-diary のコードを分析して
 
 **スキルの動作**:
 1. growth-diaryディレクトリに移動
 2. flutter analyzeで静的解析実行
 3. TODOコメントやパターンを検索
-4. 26件の改修案を特定
+4. 362件の改修案を特定
 5. カテゴリごとに分類
-6. ユーザーに確認
-7. GitHub Issueを26件作成
-8. 結果レポートを表示
+6. サマリーを表示
+7. 詳細レポートを生成（オプション）
+8. 次のステップを提案
 
-### 例2: 特定カテゴリのみ
+### 例2: カレントディレクトリで実行
 
-**ユーザー**: バグだけをissue化して
-
-**スキルの動作**:
-1. バグのみをフィルタリング
-2. 5件のバグを特定
-3. ユーザーに確認
-4. バグ関連のIssueのみ作成
-
-### 例3: カレントディレクトリで実行
-
-**ユーザー**: このプロジェクトの改修案をissueにして
+**ユーザー**: このプロジェクトのコードをチェックして
 
 **スキルの動作**:
 1. カレントディレクトリから自動判定
 2. 以降は例1と同じフロー
 
-## Issueテンプレート例
+### 例3: 特定カテゴリのみ報告
 
-### バグIssue
+**ユーザー**: セキュリティ問題だけチェックして
 
-```markdown
-## 問題の概要
-UserProfile.tsの85行目でnullチェックが不足しており、ランタイムエラーが発生する可能性があります。
+**スキルの動作**:
+1. 静的解析実行
+2. セキュリティ関連のみフィルタリング
+3. 結果を報告
 
-## 影響範囲
-- lib/models/user_profile.ts:85
-- lib/services/user_service.ts:42（呼び出し元）
+## 分析レポートの保存形式
 
-## 再現手順
-1. ログインせずにプロフィール画面にアクセス
-2. userオブジェクトがnullの状態で参照される
+### Markdownレポート（詳細）
 
-## 期待される動作
-nullチェックを追加し、適切なエラーハンドリングを実装
-
-## 修正方法
-```typescript
-// 修正前
-const userName = user.profile.name;
-
-// 修正後
-const userName = user?.profile?.name ?? 'ゲスト';
-```
-
-## 優先度
-High - ランタイムエラーを引き起こす可能性
-
-## 見積もり
-1-2時間
-```
-
-### リファクタリングIssue
+`./reports/code_analysis_yyyyMMddHHmm.md`に保存:
 
 ```markdown
-## 改善内容
-UserService.tsとAdminService.tsで認証ロジックが重複しています。
+# コード分析レポート
 
-## 影響範囲
-- lib/services/user_service.ts:120-150
-- lib/services/admin_service.ts:95-125
+実行日時: 2025-11-26 14:30
+プロジェクト: project-name
 
-## 提案
-共通の認証ロジックをauth_helper.tsに抽出し、両サービスから利用する。
+## サマリー
+- 総問題数: 362件
+- Critical: 31件
+- High: 148件
+- Medium: 150件
+- Low: 33件
 
-## 修正方法
-1. auth_helper.tsを作成
-2. 共通認証ロジックを抽出
-3. 両サービスから呼び出すように変更
+## カテゴリ別内訳
+- バグ: 180件
+- リファクタリング: 120件
+- ドキュメント: 36件
+- パフォーマンス: 15件
+- テスト: 11件
 
-## メリット
-- コードの重複削減（約60行）
-- 保守性の向上
-- テストの簡素化
+## 詳細
 
-## 優先度
-Medium
+### Critical問題
 
-## 見積もり
-2-3時間
+#### [1] 欠落ファイル: badge.dart
+- **カテゴリ**: バグ
+- **優先度**: Critical
+- **影響範囲**:
+  - lib/usecases/badge_management_usecase.dart:5
+  - lib/models/badge.dart (存在しない)
+- **説明**: badge.dartファイルが存在しないため、84件の型エラーが発生
+- **推奨対応**: badge.dartモデルファイルを作成
+
+[...]
+```
+
+### JSONレポート（機械可読）
+
+`./reports/code_analysis_yyyyMMddHHmm.json`に保存（オプション）:
+
+```json
+{
+  "timestamp": "2025-11-26T14:30:00Z",
+  "project": "project-name",
+  "projectType": "flutter",
+  "summary": {
+    "total": 362,
+    "critical": 31,
+    "high": 148,
+    "medium": 150,
+    "low": 33
+  },
+  "categories": {
+    "bug": 180,
+    "refactoring": 120,
+    "documentation": 36,
+    "performance": 15,
+    "testing": 11
+  },
+  "issues": [
+    {
+      "id": 1,
+      "title": "欠落ファイル: badge.dart",
+      "category": "bug",
+      "priority": "critical",
+      "affectedFiles": [
+        "lib/usecases/badge_management_usecase.dart:5"
+      ],
+      "description": "badge.dartファイルが存在しないため、84件の型エラーが発生",
+      "recommendation": "badge.dartモデルファイルを作成"
+    }
+  ]
+}
 ```
 
 ## 設定オプション
 
-スキル動作を以下の環境変数でカスタマイズ可能:
+環境変数でカスタマイズ可能:
 
 ```bash
-# Issue作成時に自動アサイン
-export ISSUE_AUTO_ASSIGN=true
-
-# 優先度の閾値（この値以上のみ作成）
-export ISSUE_MIN_PRIORITY=medium
-
 # レポート出力先
 export ANALYSIS_REPORT_DIR=./reports
+
+# レポート形式（markdown/json/both）
+export ANALYSIS_REPORT_FORMAT=markdown
+
+# 最小優先度（この値以上のみ報告）
+export ANALYSIS_MIN_PRIORITY=medium
+
+# 除外ディレクトリ
+export ANALYSIS_EXCLUDE_DIRS=node_modules,dist,build,.git
 ```
 
 ## エラーハンドリング
@@ -375,74 +390,76 @@ export ANALYSIS_REPORT_DIR=./reports
 型チェックをスキップして他の分析を続行しますか？
 ```
 
-### GitHub認証エラー
+### プロジェクトタイプが不明
 
 ```
-エラー: GitHub認証が必要です。
-以下のコマンドを実行してください:
-  gh auth login
+エラー: プロジェクトタイプを判定できません。
+手動でプロジェクトタイプを指定してください:
+- TypeScript/JavaScript
+- Python
+- Flutter/Dart
+- Rust
+- Go
+- C#
 ```
 
-### Issue作成失敗
+### 分析結果が空
 
 ```
-エラー: Issue #X の作成に失敗しました。
-原因: レート制限に達しました
-対処: 1時間後に再実行してください
+分析結果: 問題は見つかりませんでした。
+コードは良好な状態です。
 ```
 
 ## 注意事項
 
-1. **大量Issue作成の警告**
-   - 20件以上のIssueを作成する場合は警告を表示
-   - ユーザーに再確認を求める
-
-2. **既存Issueの重複チェック**
-   - 類似タイトルのIssueが存在する場合は警告
-   - 重複を避けるため確認を求める
-
-3. **プライベートリポジトリの権限**
-   - Issue作成権限があることを確認
-   - 権限不足の場合はエラーを報告
-
-4. **分析範囲の制限**
+1. **分析範囲の制限**
    - node_modules, dist, buildなど除外ディレクトリを設定
    - .gitignoreのパターンを尊重
 
-5. **実行時間**
+2. **実行時間**
    - 大規模プロジェクトでは分析に時間がかかる可能性
    - バックグラウンド実行も検討
 
-## 関連コマンド・スキル
+3. **Issue作成との連携**
+   - 分析後にissue-creatorスキルを使用してIssue作成
+   - 「分析結果からissueを作成して」と依頼
 
+4. **偽陽性の可能性**
+   - 静的解析ツールは偽陽性を報告する場合がある
+   - 結果を確認してから対応を判断
+
+## 関連スキル・コマンド
+
+- `issue-creator` - Issue作成スキル（後工程）
+- `issue-fixer` - Issue対応スキル（後工程）
 - `/analyze-errors` - エラー分析コマンド（既存）
-- `/create-bug-issue` - バグIssue作成コマンド（既存）
-- `issue-fixer` - Issue対応スキル
-- `good-first-issue-creator` - 初級者向けIssue作成スキル
 
-## 拡張機能案
+## 連携例
 
-このスキルは以下の機能拡張が可能:
+### コード分析 → Issue作成
 
-1. **AI分析**: コード複雑度をAIで評価
-2. **優先度の自動学習**: 過去のIssue対応時間から学習
-3. **差分分析**: 前回分析からの変更点のみ分析
-4. **CI/CD連携**: PRごとに自動分析実行
-5. **カスタムルール**: プロジェクト固有の分析ルール追加
+```
+ユーザー: コードを分析して
+スキル (code-analyzer): [分析実行]
+スキル (code-analyzer): [結果報告]
+ユーザー: 分析結果からissueを作成して
+スキル (issue-creator): [Issue作成実行]
+```
 
 ## トラブルシューティング
 
 ### スキルが発動しない
 
-- 「コード分析」「issue登録」などのキーワードを含めて依頼
-- 例: 「growth-diaryを分析してissue作成して」
+- 「コード分析」「静的解析」などのキーワードを含めて依頼
+- 例: 「このプロジェクトのコードを分析して」
 
-### 分析結果が空
+### 分析結果が不十分
 
 - 静的解析ツールが正しくインストールされているか確認
 - プロジェクトルートで実行しているか確認
 
-### Issue作成が遅い
+### 分析が遅い
 
-- 大量のIssueを作成する場合は時間がかかります
-- バッチサイズを調整（5件ずつなど）
+- 大規模プロジェクトの場合は時間がかかる
+- 除外ディレクトリの設定を確認
+- 特定ディレクトリのみ分析することも検討
