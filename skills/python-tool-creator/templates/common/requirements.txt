@@ -1,0 +1,17 @@
+# OpenAI API
+openai>=1.0.0
+
+# HTTP通信
+requests>=2.31.0
+
+# Slack SDK
+slack-sdk>=3.23.0
+
+# Microsoft Teams
+pymsteams>=0.2.2
+
+# 設定ファイル（YAML）
+pyyaml>=6.0
+
+# 環境変数管理
+python-dotenv>=1.0.0
