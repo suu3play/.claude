@@ -20,3 +20,22 @@ desktop.ini
 # バックアップファイル
 *.bak
 *.backup
+# Claude Code local settings
+.claude/settings.local.json
+sample/
+
+# 個別プロジェクト（別リポジトリとして管理）
+desk-app-kit/
+clilog-viewer/
+finder-scope/
+hobby-weather/
+portfolio/
+source-flow/
+value-me/
+workplace-toolkit/
+
+# その他
+bash.exe.stackdump
+*.jpg
+*.png
+*.jpeg
