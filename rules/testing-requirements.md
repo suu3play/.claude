@@ -11,7 +11,7 @@
 
 -   プロジェクトルートの`./code_check/`ディレクトリに品質チェック結果を記録
 -   ファイル名: `code_check_yyyyMMddHHmm.md`（例: `code_check_202501151430.md`）
--   記録形式: `.claude/templates/code-quality-check-template.md`のテンプレートに従う
+-   記録形式: `claude-code-config/templates/code-quality-check-template.md`のテンプレートに従う
 -   各実行ごとに新規ファイルを作成し、履歴として保持
 
 ## テスト内容
