@@ -10,8 +10,8 @@
 ### 基本的な作業の流れ
 
 1. **厳格なコード品質チェック**を実行し、すべて成功することを確認
-    - 結果は `./code_check/code_check_yyyyMMddHHmm.md` に出力（形式: `.claude/templates/code-quality-check-template.md`）
-    - チェック項目詳細は `.claude/rules/testing-requirements.md` を参照
+    - 結果は `./code_check/code_check_yyyyMMddHHmm.md` に出力（形式: `claude-code-config/templates/code-quality-check-template.md`）
+    - チェック項目詳細は `claude-code-config/rules/testing-requirements.md` を参照
     - 主要チェック項目:
         - 型チェック（TypeScript/Python 型ヒント）
         - 構文エラーチェック

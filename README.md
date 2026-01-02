@@ -79,8 +79,8 @@ curl -o CLAUDE.md https://raw.githubusercontent.com/[ユーザー名]/claude-con
 
 ```bash
 # プロジェクトにサブモジュールとして追加
-git submodule add https://github.com/[ユーザー名]/claude-config.git .claude
-ln -s .claude/CLAUDE.md CLAUDE.md
+git submodule add https://github.com/[ユーザー名]/claude-code-config.git claude-code-config
+ln -s claude-code-config/CLAUDE.md CLAUDE.md
 ```
 
 ### 4. 環境設定の調整
@@ -97,7 +97,7 @@ CLAUDE.md 内の開発環境設定を、各プロジェクトの環境に合わ�
 ## ファイル構成
 
 ```
-.claude/
+claude-code-config/
 ├── CLAUDE.md                           # メイン設定ファイル
 ├── README.md                           # このファイル
 ├── settings.local.json                 # ローカル設定ファイル

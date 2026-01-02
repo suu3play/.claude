@@ -69,7 +69,7 @@
 
 設計書は `docs/DESIGN.md` に配置し、以下のテンプレートに従って作成：
 
-- **テンプレート**: `.claude/templates/design-template.md`
+- **テンプレート**: `claude-code-config/templates/design-template.md`
 - **主要なセクション**:
   - 概要（目的、主要機能、対象ユーザー）
   - アーキテクチャ（システム構成、ディレクトリ構成）

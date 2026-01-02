@@ -6,7 +6,7 @@
 
 ## 開発環境設定
 
-**注意**: `.claude/`ディレクトリは隠しディレクトリです。確認時は`ls -la`コマンドまたは`find`コマンドを使用してください。
+**注意**: `claude-code-config/`ディレクトリ内のファイルを確認する際は、適切なパスを指定してください。
 
 ## 行動指針
 
@@ -30,23 +30,23 @@
 
 複雑なタスクや詳細ルールが必要な場合は、以下ファイルを Read ツールで読み込んでから作業を開始：
 
-**重要**: 開発作業を開始する前に、必ず`.claude/rules/development-workflow.md`（隠しディレクトリ）を読み込んでブランチ作成・コード品質チェック・プルリクエスト作成の手順を確認すること
+**重要**: 開発作業を開始する前に、必ず`claude-code-config/rules/development-workflow.md`を読み込んでブランチ作成・コード品質チェック・プルリクエスト作成の手順を確認すること
 
 ### 開発関連
 
--   **開発ワークフロー**: `.claude/rules/development-workflow.md`を読み込み
--   **コード品質基準**: `.claude/rules/code-quality-standards.md`を読み込み
--   **テスト要件**: `.claude/rules/testing-requirements.md`を読み込み
+-   **開発ワークフロー**: `claude-code-config/rules/development-workflow.md`を読み込み
+-   **コード品質基準**: `claude-code-config/rules/code-quality-standards.md`を読み込み
+-   **テスト要件**: `claude-code-config/rules/testing-requirements.md`を読み込み
 
 ### プロジェクト管理
 
--   **Issue 管理**: `.claude/rules/issue-management.md`を読み込み
+-   **Issue 管理**: `claude-code-config/rules/issue-management.md`を読み込み
 
 ### テンプレート
 
--   **プルリクエスト**: `.claude/templates/pull-request-template.md`を参照
--   **Issue 作成**: `.claude/templates/issue-template.md`を参照
--   **コード品質チェック**: `.claude/templates/code-quality-check-template.md`を参照
+-   **プルリクエスト**: `claude-code-config/templates/pull-request-template.md`を参照
+-   **Issue 作成**: `claude-code-config/templates/issue-template.md`を参照
+-   **コード品質チェック**: `claude-code-config/templates/code-quality-check-template.md`を参照
 
 ## 運用方針
 

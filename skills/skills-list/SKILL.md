@@ -22,8 +22,8 @@ allowed-tools: Bash, Read, Glob
 プロジェクトスキルと個人用スキルの両方を検索します。
 
 ```bash
-# プロジェクトスキル(.claude/skills/)
-find .claude/skills -maxdepth 2 -name "SKILL.md" -type f
+# プロジェクトスキル(claude-code-config/skills/)
+find claude-code-config/skills -maxdepth 2 -name "SKILL.md" -type f
 
 # 個人用スキル(~/.claude/skills/)
 find ~/.claude/skills -maxdepth 2 -name "SKILL.md" -type f 2>/dev/null || true
