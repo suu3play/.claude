@@ -1,0 +1,62 @@
+# SQLiteストレージ設定ファイル例
+
+# ロギング設定
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/sqlite_storage.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# SQLite設定
+sqlite:
+  # データベースファイルパス
+  db_path: "data/app.db"
+
+  # 自動コミット（True: 各操作で即コミット、False: 明示的にcommit()が必要）
+  auto_commit: true
+
+  # スレッドチェック（False: 複数スレッドから同じ接続を使用可能）
+  check_same_thread: false
+
+  # タイムアウト（秒）
+  timeout: 30
+
+  # テーブル定義
+  tables:
+    # ユーザーテーブル
+    users:
+      schema:
+        id: INTEGER PRIMARY KEY AUTOINCREMENT
+        name: TEXT NOT NULL
+        email: TEXT UNIQUE NOT NULL
+        age: INTEGER
+        created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        deleted_at: TIMESTAMP
+      indexes:
+        - email
+        - created_at
+
+    # ログテーブル
+    logs:
+      schema:
+        id: INTEGER PRIMARY KEY AUTOINCREMENT
+        user_id: INTEGER
+        action: TEXT NOT NULL
+        details: TEXT
+        created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      indexes:
+        - user_id
+        - created_at
+
+    # データ履歴テーブル
+    data_history:
+      schema:
+        id: INTEGER PRIMARY KEY AUTOINCREMENT
+        data_type: TEXT NOT NULL
+        data_json: TEXT
+        fetched_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      indexes:
+        - data_type
+        - fetched_at
