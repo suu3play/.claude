@@ -1,55 +1,148 @@
-# Claude Code 設定
+# CLAUDE.md
 
-## Claude のアシスタント設定
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-あなたはプロフェッショナルな AI アシスタントです。対象ユーザーは主にソフトウェアエンジニアであるので、常に正確かつ簡潔な回答を心がけ、ユーザーの意図を尊重しながら、実用的で保守性の高いコードや技術解説を提供してください。
+## リポジトリ概要
 
-## 開発環境設定
+このリポジトリは**Claude Code設定管理リポジトリ**です。プロフェッショナルな開発をサポートするための：
+- 開発ワークフロールール
+- コード品質基準
+- Issue/PR管理テンプレート
+- カスタムスキル
+- スラッシュコマンド
 
-**注意**: `.claude/`ディレクトリは隠しディレクトリです。確認時は`ls -la`コマンドまたは`find`コマンドを使用してください。
+を一元管理しています。
 
-## 行動指針
+## アーキテクチャ
 
--   回答は簡潔に。ただし、必要に応じて十分な技術的背景も含めて説明すること。
--   よくあるミスや注意点がある場合は、事前にユーザーに警告すること。
--   複雑なタスクの場合、TodoWrite ツールを使用して計画的に対応すること（単純なタスクでは不要）。
+### ディレクトリ構造
 
-## コミュニケーションスタイル
+```
+.claude/                   # Claude Code設定ファイル群
+├── rules/                 # 開発ルール定義
+│   ├── development-workflow.md      # ブランチ作成→コミット→PR作成フロー
+│   ├── code-quality-standards.md    # 品質基準とチェック項目
+│   ├── testing-requirements.md      # テスト要件
+│   └── documentation-standards.md   # ドキュメント標準
+├── skills/                # Claude Codeカスタムスキル（13個）
+│   ├── pr-creator/        # PR作成（品質チェック→コミット→プッシュ→PR）
+│   ├── issue-creator/     # Issue作成（分析→グルーピング→一括作成）
+│   ├── code-analyzer/     # コード分析→Issue登録
+│   ├── branch-cleaner/    # ブランチ整理→main更新
+│   ├── version-manager/   # バージョン管理（SemVer対応）
+│   └── ...                # その他8個のスキル
+├── templates/             # 各種テンプレート
+│   ├── pull-request-template.md
+│   ├── issue-template.md
+│   └── code-quality-check-template.md
+├── commands/              # カスタムスラッシュコマンド
+│   └── copy-labels.md     # ラベル体系コピーコマンド
+├── labels.md              # 標準ラベル定義（Type系/Priority系）
+└── settings.json          # Claude Code設定
 
--   冷静・丁寧・専門的なトーンを維持すること。
--   要望に応じて、具体例やたとえ話を交えてわかりやすく説明すること。
--   絵文字は原則使用しない（ユーザーから求められた場合のみ使用）。
+個別プロジェクト/           # 各プロジェクトは別リポジトリとして管理
+├── desk-app-kit/          # .gitignoreで除外
+├── hobby-weather/
+└── ...
+```
 
-## 共通方針
+### 設定の階層構造
 
--   回答も記述もデフォルトは日本語。
-    -   ユーザーが英語で話し始めた場合は英語で応答する。
--   いかなる記述にも Claude 等の生成ツール名を**一切記載しないこと**（コード、コメント、ドキュメント、コミットメッセージを含む）
+1. **CLAUDE.md（このファイル）** - エントリーポイント
+2. **rules/** - 作業開始前に読み込む詳細ルール
+3. **skills/** - 自動発動するタスク専用エージェント
+4. **templates/** - 成果物の標準フォーマット
 
-## 詳細ルール参照
+## 重要な動作原則
 
-複雑なタスクや詳細ルールが必要な場合は、以下ファイルを Read ツールで読み込んでから作業を開始：
+### 言語とトーン
+- デフォルトは**日本語**（ユーザーが英語で話した場合のみ英語で応答）
+- 冷静・丁寧・専門的なトーン
+- 絵文字は原則使用しない
 
-**重要**: 開発作業を開始する前に、必ず`.claude/rules/development-workflow.md`（隠しディレクトリ）を読み込んでブランチ作成・コード品質チェック・プルリクエスト作成の手順を確認すること
+### 生成ツール名の記載禁止
+**いかなる記述にもClaude等の生成ツール名を一切記載しないこと**
+- コード内コメント
+- コミットメッセージ
+- ドキュメント
+- PR/Issue本文
 
-### 開発関連
+### 作業フロー
+複雑なタスクの場合、TodoWriteツールを使用して計画的に対応すること。
 
--   **開発ワークフロー**: `.claude/rules/development-workflow.md`を読み込み
--   **コード品質基準**: `.claude/rules/code-quality-standards.md`を読み込み
--   **テスト要件**: `.claude/rules/testing-requirements.md`を読み込み
+## 開発作業時の必須手順
 
-### プロジェクト管理
+**重要**: 開発作業を開始する前に、必ず`.claude/rules/development-workflow.md`を読み込んでから作業を開始すること。
 
--   **Issue 管理**: `.claude/rules/issue-management.md`を読み込み
+### 基本フロー
 
-### テンプレート
+1. **作業用ブランチ作成**
+   - Issue対応: `feature/issue-[番号]`
+   - 機能追加: `feature/[機能名]`
+   - バグ修正: `fix/[修正内容]`
 
--   **プルリクエスト**: `.claude/templates/pull-request-template.md`を参照
--   **Issue 作成**: `.claude/templates/issue-template.md`を参照
--   **コード品質チェック**: `.claude/templates/code-quality-check-template.md`を参照
+2. **コード品質チェック実行**（必須）
+   - `testing-requirements.md`記載の全チェック項目を実行
+   - 結果を`./code_check/code_check_yyyyMMddHHmm.md`に出力
+   - すべてのチェックが成功することを確認
 
-## 運用方針
+3. **コミット** - Conventional Commits形式（feat:, fix:, docs:, refactor:, test:）
 
--   詳細ルール適用時は、該当ファイルを Read ツールで読み込んでから作業を開始すること
--   テンプレート使用時は、該当テンプレートファイルの構成に従うこと
--   ルールファイルの内容は、作業実行前に必ず最新版を読み込むこと
+4. **ユーザー報告と確認待ち**
+   - 変更ファイル一覧と変更内容サマリーを表示
+   - 品質チェック結果を報告
+   - ユーザーの承認を待つ
+
+5. **プッシュ** - ユーザー承認後に実行
+
+6. **PR作成** - ユーザーから明示的に指示された場合のみ
+
+## スキルシステム
+
+このリポジトリには13個のカスタムスキルが定義されています。スキルは特定のキーワードで自動発動します。
+
+### 主要スキル
+
+| スキル名 | 発動キーワード | 機能 |
+|---------|-------------|------|
+| pr-creator | "PR作成", "プルリク" | 品質チェック→コミット→PR作成 |
+| issue-creator | "Issue作成", "issue登録" | 分析結果をIssueとして一括登録 |
+| code-analyzer | "コード分析", "バグ検出" | 静的解析→Issue自動登録 |
+| branch-cleaner | "ブランチ整理" | マージ済みブランチ削除→main更新 |
+| version-manager | "バージョン更新" | SemVerに従ったバージョン管理 |
+
+詳細: `skills/*/SKILL.md`を参照
+
+## ルールファイルの使用方法
+
+作業内容に応じて該当ルールを読み込んでから作業を開始：
+
+- **開発ワークフロー**: `.claude/rules/development-workflow.md`
+- **コード品質基準**: `.claude/rules/code-quality-standards.md`
+- **テスト要件**: `.claude/rules/testing-requirements.md`
+- **ドキュメント標準**: `.claude/rules/documentation-standards.md`
+
+## テンプレートの使用
+
+成果物作成時は該当テンプレートの構成に従うこと：
+
+- **プルリクエスト**: `.claude/templates/pull-request-template.md`
+- **Issue作成**: `.claude/templates/issue-template.md`
+- **コード品質チェック**: `.claude/templates/code-quality-check-template.md`
+
+## 個別プロジェクトの扱い
+
+`desk-app-kit/`, `hobby-weather/`等の個別プロジェクトディレクトリは：
+- 別リポジトリとして独立管理
+- `.gitignore`で除外済み
+- このリポジトリでは追跡しない
+
+## カスタムスラッシュコマンド
+
+現在利用可能なコマンド:
+- `/copy-labels` - 標準ラベル体系を個別プロジェクトにコピー
+
+スキルで担保されているため、以下のコマンドは削除済み:
+- `/create-pr` → pr-creatorスキル
+- `/issue` → issue-fixerスキル
+- `/branch-cleanup` → branch-cleanerスキル
